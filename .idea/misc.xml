@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="Black">
+    <option name="sdkName" value="Poetry (test-automation) (5)" />
+  </component>
   <component name="MaterialThemeProjectNewConfig">
     <option name="metadata">
       <MTProjectMetadataState>
@@ -7,5 +10,5 @@
       </MTProjectMetadataState>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Poetry (test-automation) (5)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Poetry (project-circle-square-server)" project-jdk-type="Python SDK" />
 </project>
