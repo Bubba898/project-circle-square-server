@@ -29,7 +29,7 @@ html = """
             function connect(event) {
                 var session_id = document.getElementById("session_id")
                 var client_type = document.getElementById("client_type")
-                ws = new WebSocket("ws://localhost:8000/" + client_type.value + "/" + session_id.value);
+                ws = new WebSocket("ws://project-circle-square-server.vercel.app/" + client_type.value + "/" + session_id.value);
                 ws.onmessage = function(event) {
                     var messages = document.getElementById('messages')
                     var message = document.createElement('li')
