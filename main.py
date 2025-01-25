@@ -64,11 +64,11 @@ async def unity_ws(websocket: WebSocket, session_id: int):
         from starlette.websockets import WebSocketDisconnect
         try:
             data = await websocket.receive_text()
+            await websocket.send_text(f"You: {data}")
+            await session.receive_unity(data)
         except WebSocketDisconnect:
             await session.on_unity_disconnected()
             close_session(session_id)
-        await websocket.send_text(f"You: {data}")
-        await session.receive_unity(data)
 
 @app.websocket("/web_client_ws/{session_id}")
 async def web_client_ws(websocket: WebSocket, session_id: int):
@@ -79,8 +79,12 @@ async def web_client_ws(websocket: WebSocket, session_id: int):
         from starlette.websockets import WebSocketDisconnect
         try:
             data = await websocket.receive_text()
+            await websocket.send_text(f"You: {data}")
+            await session.receive_web_client(data)
         except WebSocketDisconnect:
             await session.on_unity_disconnected()
             close_session(session_id)
-        await websocket.send_text(f"You: {data}")
-        await session.receive_web_client(data)
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8001)
