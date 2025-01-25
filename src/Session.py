@@ -24,11 +24,11 @@ class Session:
     async def receive_unity(self, data: str):
         print(f"Received unity data {data}")
         if self.web_client_ws:
-            await self.web_client_ws.send_text(f"Other: {data}")
+            await self.web_client_ws.send_text(f"{data}")
 
     async def receive_web_client(self, data: str):
         print(f"Received web client {data}")
-        await self.unity_ws.send_text(f"Other: {data}")
+        await self.unity_ws.send_text(f"{data}")
 
     @property
     def both_clients_connected(self) -> bool:
