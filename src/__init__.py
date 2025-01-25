@@ -1,6 +1,6 @@
 from src.Session import Session
 
-import sessions
+from . import sessions
 
 def get_or_create_session(session_id: int) -> Session:
     if session_id not in sessions.sessions:
