@@ -1,1 +1,18 @@
 /.idea/
+/__pycache__/
+.DS_store
+.idea/
+.vscode/
+,ropeproject
+*.pyc
+# Packages
+*.egg
+
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+*.pyc
+__pychache__
