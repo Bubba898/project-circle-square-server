@@ -1,8 +1,14 @@
 {
-    "rewrites": [
+    "builds": [
       {
-        "source": "/(.*)",
-        "destination": "/"
+        "src": "project-circle-square-server/main.py",
+        "use": "@vercel/python"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "project-circle-square-server/main.py"
       }
     ]
   }
