@@ -23,7 +23,8 @@ class Session:
 
     async def receive_unity(self, data: str):
         print(f"Received unity data {data}")
-        await self.web_client_ws.send_text(f"Other: {data}")
+        if self.web_client_ws:
+            await self.web_client_ws.send_text(f"Other: {data}")
 
     async def receive_web_client(self, data: str):
         print(f"Received web client {data}")
@@ -36,6 +37,16 @@ class Session:
     async def send_game_started(self):
         if self.both_clients_connected:
             await asyncio.gather(
-                self.unity_ws.send_text("GameStart"),
-                self.web_client_ws.send_text("GameStart"),
+                self.unity_ws.send_text('{"event": "GameStart"}'),
+                self.web_client_ws.send_text('{"event": "GameStart"}'),
             )
+
+    async def on_unity_disconnected(self):
+        if self.web_client_ws:
+            await self.web_client_ws.send_text(f"Other client disconnected")
+            await self.web_client_ws.close()
+
+    async def on_web_disconnected(self):
+        if self.unity_ws:
+            await self.unity_ws.send_text(f"Other client disconnected")
+            await self.unity_ws.close()

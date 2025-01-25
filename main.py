@@ -1,7 +1,7 @@
 from fastapi import FastAPI, WebSocket
 from fastapi.responses import HTMLResponse
 
-from src import get_or_create_session, Session
+from src import get_or_create_session, Session, close_session
 
 app = FastAPI()
 
@@ -56,27 +56,31 @@ async def get():
 
 
 @app.websocket("/unity_ws/{session_id}")
-async def websocket_endpoint(websocket: WebSocket, session_id: int):
-    print("!!!")
+async def unity_ws(websocket: WebSocket, session_id: int):
     await websocket.accept()
     session: Session = get_or_create_session(session_id)
     await session.connect_unity_client(websocket)
     while True:
-        data = await websocket.receive_text()
+        from starlette.websockets import WebSocketDisconnect
+        try:
+            data = await websocket.receive_text()
+        except WebSocketDisconnect:
+            await session.on_unity_disconnected()
+            close_session(session_id)
         await websocket.send_text(f"You: {data}")
         await session.receive_unity(data)
 
 @app.websocket("/web_client_ws/{session_id}")
-async def websocket_endpoint(websocket: WebSocket, session_id: int):
+async def web_client_ws(websocket: WebSocket, session_id: int):
     await websocket.accept()
     session: Session = get_or_create_session(session_id)
     await session.connect_web_client(websocket)
     while True:
-        data = await websocket.receive_text()
+        from starlette.websockets import WebSocketDisconnect
+        try:
+            data = await websocket.receive_text()
+        except WebSocketDisconnect:
+            await session.on_unity_disconnected()
+            close_session(session_id)
         await websocket.send_text(f"You: {data}")
         await session.receive_web_client(data)
-
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
