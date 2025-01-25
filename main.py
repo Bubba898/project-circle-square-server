@@ -1,7 +1,7 @@
 from fastapi import FastAPI, WebSocket
 from fastapi.responses import HTMLResponse
 
-from src import get_or_create_session, Session, close_session
+from src import get_or_create_session, Session, close_session, reset_sessions
 
 app = FastAPI()
 
@@ -54,6 +54,10 @@ html = """
 @app.get("/")
 async def get():
     return HTMLResponse(html)
+
+@app.get("/reset_sessions")
+async def resetsessions():
+    reset_sessions()
 
 
 @app.websocket("/unity_ws/{session_id}")
