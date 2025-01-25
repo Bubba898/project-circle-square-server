@@ -3,7 +3,7 @@ name = "project-circle-square-server "
 version = "0.1.0"
 description = ""
 authors = ["Yannick Wiggers <yannick.wiggers@kolibrigames.com>"]
-readme = "README.md"
+readme = "readme.md"
 
 [tool.poetry.dependencies]
 python = "^3.13"
