@@ -69,7 +69,6 @@ async def unity_ws(websocket: WebSocket, session_id: int):
         from starlette.websockets import WebSocketDisconnect
         try:
             data = await websocket.receive_text()
-            await websocket.send_text(f"You: {data}")
             await session.receive_unity(data)
         except WebSocketDisconnect:
             await session.on_unity_disconnected()
